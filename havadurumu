@@ -1,0 +1,25 @@
+import requests
+
+# API anahtarı
+api_key = '8620c1a767b55fd476ebc688a337e00b'
+
+# Weatherstack API'nin URL'si
+url = f'http://api.weatherstack.com/current?access_key={api_key}&query=New%20York'
+
+# API'den istek gönderme
+response = requests.get(url)
+
+# İstek başarılı ise yanıtı ekrana yazdırma
+if response.status_code == 200:
+    data = response.json()
+    if 'error' in data:
+        print("Hata:", data['error']['info'])
+    else:
+        print("Hava Durumu Bilgileri:")
+        print("Şehir:", data['location']['name'])
+        print("Sıcaklık:", data['current']['temperature'], "derece Celsius")
+        print("Hissedilen Sıcaklık:", data['current']['feelslike'], "derece Celsius")
+        print("Rüzgar Hızı:", data['current']['wind_speed'], "km/s")
+        print("Nem Oranı:", data['current']['humidity'], "%")
+else:
+    print("API'den veri alınamadı. Hata kodu:", response.status_code)
